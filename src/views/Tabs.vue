@@ -125,6 +125,10 @@ export default {
 
     const handleRead = (index) => {
       const item = state.unread.splice(index, 1);
+<<<<<<< HEAD
+=======
+      console.log(item);
+>>>>>>> 9e1bac8f9a346c984273c8f9d769d0394191b4cc
       state.read = item.concat(state.read);
     };
     const handleDel = (index) => {
