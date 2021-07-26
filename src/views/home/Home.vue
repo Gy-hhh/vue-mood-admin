@@ -130,7 +130,7 @@
   import {ElMessage} from 'element-plus';
   import Modal from './components/model.vue'
   import { ipInfo } from "../../api/user";
-
+  import axios from 'axios';
   type Table = {
     list: unknown[];
     total: number;
@@ -239,7 +239,15 @@
         modelShow.show = false;
       }
       //获取用户当前ipipInfo
-      let ip = ''
+      function getIpInfo():void{
+        ipInfo().then((res:ResponseDataType)=>{
+          // axios.get('https://ip.ws.126.net/ipquery?ip='+res.data.ip)
+          //   .then(response => (
+          //     console.log(response)
+          //   ))
+        })
+      }
+      getIpInfo()
       return {
         userInfo,
         table,
