@@ -4,7 +4,6 @@
       <component :is="Component" v-if="$route.meta.keepAlive" />
     </keep-alive>
   </router-view>
-<<<<<<< HEAD
   <router-view v-if="!$route.meta.keepAlive" :key="key"></router-view>
 </template>
 
@@ -19,12 +18,6 @@
     }
   })
 </script>
-
-=======
-  <router-view v-if="!$route.meta.keepAlive"></router-view>
-</template>
-
->>>>>>> 9e1bac8f9a346c984273c8f9d769d0394191b4cc
 <style lang="less">
 @import './assets/css/main.css';
 @import './assets/css/color-dark.css';
