@@ -4,7 +4,7 @@
       <el-col :span="8">
         <el-card shadow="hover" class="mgb20" style="height: 252px">
           <div class="user-info">
-            <img class="user-avator" :src="userInfo.avatarUrl" alt="" />
+            <img class="user-avator" :src="userInfo.avatarUrl" alt=""/>
             <div class="user-info-cont">
               <div class="user-info-name">{{ userInfo.username }}</div>
               <div>{{ role }}</div>
@@ -27,9 +27,12 @@
           </template>
           Vue
           <el-progress :percentage="71.3" color="#42b983"></el-progress
-          >JavaScript
-          <el-progress :percentage="24.1" color="#f1e05a"></el-progress>CSS
-          <el-progress :percentage="13.7"></el-progress>HTML
+          >
+          JavaScript
+          <el-progress :percentage="24.1" color="#f1e05a"></el-progress>
+          CSS
+          <el-progress :percentage="13.7"></el-progress>
+          HTML
           <el-progress :percentage="5.9" color="#f56c6c"></el-progress>
         </el-card>
       </el-col>
@@ -69,13 +72,13 @@
             </el-card>
           </el-col>
         </el-row>
-        <el-card shadow="hover" style="height: 403px">
+        <el-card shadow="hover" style="height: 403px;overflow: auto">
           <template #header>
             <div class="clearfix">
               <span>待办事项</span>
-              <el-button style="float: right; padding: 3px 0" type="text"
-                >添加</el-button
-              >
+              <el-button style="float: right; padding: 3px 0" type="text" @click="modelShow.show = true;">
+                添加
+              </el-button>
             </div>
           </template>
           <el-table :show-header="false" :data="table.list" style="width: 100%">
@@ -110,67 +113,80 @@
       </el-col>
     </el-row>
   </div>
+
+  <Modal
+    :modelShow="modelShow"
+    :todoListAdd="todoListAdd"
+    @save="saveEdit"
+    @close="close"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from 'vue';
-import { useStore } from 'vuex';
-import { todoList, updateTodo } from '@api/todo';
-import { ResponseDataType } from '@/types/types';
-import { ElMessage } from 'element-plus';
+  import {defineComponent, reactive, computed} from 'vue';
+  import {useStore} from 'vuex';
+  import {todoList, updateTodo,addTodo} from '@api/todo';
+  import {ResponseDataType} from '@/types/types';
+  import {ElMessage} from 'element-plus';
+  import Modal from './components/model.vue'
+  import { ipInfo } from "../../api/user";
 
-type Table = {
-  list: unknown[];
-  total: number;
-};
+  type Table = {
+    list: unknown[];
+    total: number;
+  };
 
-type TodoItem = {
-  id: number;
-  title: string;
-  status: number;
-  statusText?: boolean;
-  createTime: string;
-};
+  type TodoItem = {
+    id: number;
+    title: string;
+    status: number;
+    statusText?: boolean;
+    createTime: string;
+  };
 
-export default defineComponent({
-  name: 'Home',
-  setup() {
-    const $store = useStore();
+  type FormTodo = {
+    title: string;
+    status: number;
+    statusText?: boolean;
+    createTime: string;
+  };
 
-    // 用户信息
-    const userInfo = computed(() => $store.getters.userInfo);
-
-    const role = computed(() => {
-      const userType = Number(userInfo.value.userType);
-      if (userType === 0) {
-        return '超级管理员';
-      }
-      if (userType === 1) {
-        return '管理员';
-      }
-      if (userType === 2) {
+  export default defineComponent({
+    name: 'Home',
+    components: {
+      Modal
+    },
+    setup() {
+      const $store = useStore();
+      // 用户信息
+      const userInfo = computed(() => $store.getters.userInfo);
+      const role = computed(() => {
+        const userType = Number(userInfo.value.userType);
+        if (userType === 0) {
+          return '超级管理员';
+        }
+        if (userType === 1) {
+          return '管理员';
+        }
+        if (userType === 2) {
+          return '普通用户';
+        }
         return '普通用户';
-      }
-      return '普通用户';
-    });
-
-    const params = reactive({
-      page: 1,
-      size: 10
-    });
-
-    const table = reactive<Table>({
-      list: [],
-      total: 0
-    });
-
-    // 获取代办事项列表
-    function getTodoList(): void {
-      todoList({
-        page: params.page,
-        size: params.size
-      })
-        .then((res: ResponseDataType) => {
+      });
+      const params = reactive({
+        page: 1,
+        size: 10
+      });
+      const table = reactive<Table>({
+        list: [],
+        total: 0
+      });
+      // 获取代办事项列表
+      function getTodoList(): void {
+        todoList({
+          page: params.page,
+          size: params.size
+        }).then((res: ResponseDataType) => {
           if (res.code === 200) {
             // 处理status
             res.data.forEach((item: TodoItem) => {
@@ -179,40 +195,65 @@ export default defineComponent({
             table.list = res.data;
             table.total = res.total || 0;
           }
-        })
-        .catch(() => ({}));
-    }
-    getTodoList();
-
-    // 代办事项更新
-    function statusChange(value: boolean, row: TodoItem): void {
-      const status = value ? 1 : 0;
-      updateTodo({
-        id: row.id,
-        title: row.title,
-        status: status,
-        createTime: row.createTime
-      })
-        .then((res: ResponseDataType) => {
+        }).catch(() => ({}));
+      }
+      getTodoList();
+      // 代办事项更新
+      function statusChange(value: boolean, row: TodoItem): void {
+        const status = value ? 1 : 0;
+        updateTodo({
+          id: row.id,
+          title: row.title,
+          status: status,
+          createTime: row.createTime
+        }).then((res: ResponseDataType) => {
           if (res.code === 200) {
             ElMessage.success(res.msg);
           } else {
             ElMessage.error(res.msg);
           }
-        })
-        .catch(() => ({}));
+        }).catch(() => ({}));
+      }
+      //新增事项
+      let modelShow = reactive({
+        show: false
+      })
+      const todoListAdd = reactive<FormTodo>({
+        title: '',
+        status: 0,
+        createTime: ''
+      });
+      function saveEdit(params: FormTodo): any {
+        addTodo({...params}).then((res: ResponseDataType) => {
+          if (res.code === 200) {
+            ElMessage.success(res.msg);
+            getTodoList();
+            modelShow.show = false;
+          } else {
+            ElMessage.error(res.msg);
+          }
+        }).catch(() => ({}));
+      }
+      // 关闭
+      function close(): void {
+        modelShow.show = false;
+      }
+      //获取用户当前ipipInfo
+      let ip = ''
+      return {
+        userInfo,
+        table,
+        role,
+        statusChange,
+        todoListAdd,
+        modelShow,
+        close,
+        saveEdit
+      };
     }
-
-    return {
-      userInfo,
-      table,
-      role,
-      statusChange
-    };
-  }
-});
+  });
 </script>
 
 <style lang="less" scoped>
-@import './home.less';
+  @import './home.less';
 </style>

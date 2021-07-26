@@ -4,9 +4,20 @@
       <component :is="Component" v-if="$route.meta.keepAlive" />
     </keep-alive>
   </router-view>
-  <router-view v-if="!$route.meta.keepAlive"></router-view>
+  <router-view v-if="!$route.meta.keepAlive" :key="key"></router-view>
 </template>
 
+<script lang="ts">
+  import { defineComponent, computed } from 'vue';
+  import { useRoute } from 'vue-router';
+  export default defineComponent({
+    setup() {
+      const $route = useRoute();
+      const key = computed(() => $route.path + Math.random());
+      return{key}
+    }
+  })
+</script>
 <style lang="less">
 @import './assets/css/main.css';
 @import './assets/css/color-dark.css';

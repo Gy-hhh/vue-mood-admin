@@ -35,7 +35,12 @@
               <span>账户编辑</span>
             </div>
           </template>
-          <el-form label-width="90px">
+          <el-form
+            :model="form"
+            :rules="rules"
+            ref="loginRef"
+            label-width="90px"
+          >
             <el-form-item label="用户名：">
               <el-input
                 type="text"
@@ -43,10 +48,10 @@
                 readonly
               ></el-input>
             </el-form-item>
-            <el-form-item label="旧密码：">
+            <el-form-item label="旧密码：" prop="oldPassword">
               <el-input type="password" v-model="form.oldPassword"></el-input>
             </el-form-item>
-            <el-form-item label="新密码：">
+            <el-form-item label="新密码：" prop="newPassword">
               <el-input type="password" v-model="form.newPassword"></el-input>
             </el-form-item>
             <el-form-item label="个人简介：">
@@ -68,7 +73,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { updateUser } from '@api/user';
 import { ResponseDataType } from '@/types/types';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElForm } from 'element-plus';
 
 type Form = {
   userId: number;
@@ -82,12 +87,9 @@ export default defineComponent({
   setup() {
     const $router = useRouter();
     const $store = useStore();
-
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-
     const avatarImg = ref<string>(userInfo.value.avatarUrl);
-
     function beforeAvatarUpload(file: { type: string }) {
       const isJPG = file.type === 'image/jpeg';
       const isPNG = file.type === 'image/png';
@@ -96,7 +98,6 @@ export default defineComponent({
         return ElMessage.error('上传头像图片只能是 JPG、PNG 格式!');
       }
     }
-
     function handleAvatarSuccess(res: ResponseDataType) {
       if (res.code === 200) {
         ElMessage.success(res.msg);
@@ -109,35 +110,60 @@ export default defineComponent({
         ElMessage.error(res.msg);
       }
     }
-
     const form = reactive<Form>({
       userId: Number(userInfo.value.userId),
       oldPassword: '',
       newPassword: '',
       desc: String(userInfo.value.desc)
     });
+    const validatePass = (rule:any, value:any, callback:any) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value == form.oldPassword) {
+        callback(new Error('新密码和旧密码不能一样'))
+      } else {
+        callback()
+      }
+    }
+    const rules = {
+      oldPassword: [
+        { required: true, message: '请输入旧密码', trigger: 'blur' },
+        { min: 6, message: '不能小于6位字符', trigger: 'blur' }
+      ],
+      newPassword: [
+        { required: true, message: '请输入新密码', trigger: 'blur' },
+        { min: 6, message: '不能小于6位字符', trigger: 'blur' },
+        { validator: validatePass, trigger: 'blur' }
+      ]
+    };
+    const loginRef = ref<InstanceType<typeof ElForm>>();
     // 修改资料
     function submit() {
-      updateUser({ ...form })
-        .then((res: ResponseDataType) => {
-          if (res.code === 200) {
-            ElMessage.success(res.msg);
-            setTimeout(() => {
-              $router.push({ name: 'login' });
-            }, 1000);
-          } else {
-            ElMessage.error(res.msg);
-          }
-        })
-        .catch(() => ({}));
+      (loginRef.value as InstanceType<typeof ElForm>).validate(valid => {
+        if (valid) {
+          updateUser({ ...form })
+            .then((res: ResponseDataType) => {
+              if (res.code === 200) {
+                ElMessage.success(res.msg);
+                setTimeout(() => {
+                  $router.push({ name: 'login' });
+                }, 1000);
+              } else {
+                ElMessage.error(res.msg);
+              }
+            })
+            .catch(() => ({}));
+        }
+      })
     }
-
     return {
       userInfo,
       avatarImg,
       beforeAvatarUpload,
       handleAvatarSuccess,
       form,
+      rules,
+      loginRef,
       submit
     };
   }

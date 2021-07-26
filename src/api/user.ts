@@ -72,3 +72,14 @@ export const logout = (): AxiosRequest => {
     method: 'post'
   });
 };
+/**
+ * @description 用户ip信息
+ */
+export const ipInfo = ({ ip }: { ip: number }): AxiosRequest => {
+  const params = { ip };
+  return axios.request({
+    url: '/user/ipinfo',
+    method: 'get',
+    params
+  });
+};

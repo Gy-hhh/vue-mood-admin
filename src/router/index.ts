@@ -84,7 +84,7 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () =>
           import(/* webpackChunkName: 'tabs' */ '../views/Tabs.vue')
-      }
+      },
     ]
   },
   {
@@ -96,6 +96,24 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: 'login' */ '../views/login/Login.vue')
   },
+  {
+    path: '/register',
+    name: 'register',
+    meta: {
+      title: '注册'
+    },
+    component: () =>
+      import(/* webpackChunkName: 'register' */ '../views/register/register.vue')
+  },
+  // 未匹配的路径名称导航到该路径
+  // {
+  //   path: '/:pathMatch(.*)*',
+  //   name: 'not-found',
+  //   component: () =>
+  //     import(
+  //       /* webpackChunkName: "not-found" */ '../views/not-found/NotFound.vue'
+  //     )
+  // }
   // 未匹配的路径名称导航到该路径
   {
     path: '/:pathMatch(.*)*',
@@ -114,7 +132,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const role = localStorage.getItem('userInfo');
-  if (!role && to.path !== '/login') {
+  if (!role && (to.path !== '/login' && to.path !== '/register')) {
     next('/login');
   } else {
     next();

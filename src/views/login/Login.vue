@@ -1,37 +1,40 @@
 <template>
   <div class="login-wrap">
-    <div class="ms-login">
-      <div class="ms-title">心情随笔管理系统</div>
-      <el-form
-        class="ms-content"
-        :model="formData"
-        :rules="rules"
-        ref="loginRef"
-        label-width="0px"
-      >
-        <el-form-item prop="username">
-          <el-input v-model="formData.username" placeholder="请输入用户名">
-            <template #prepend>
-              <el-button icon="el-icon-user"></el-button>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input
-            type="password"
-            placeholder="请输入密码"
-            v-model="formData.password"
-            @keyup.enter="submitForm()"
-          >
-            <template #prepend>
-              <el-button icon="el-icon-lock"></el-button>
-            </template>
-          </el-input>
-        </el-form-item>
-        <div class="login-btn">
-          <el-button type="primary" @click="submitForm">登录</el-button>
-        </div>
-      </el-form>
+    <div class="content">
+      <div class="ms-login">
+        <div class="ms-title">心情随笔管理系统</div>
+        <el-form
+            class="ms-content"
+            :model="formData"
+            :rules="rules"
+            ref="loginRef"
+            label-width="0px"
+        >
+          <el-form-item prop="username">
+            <el-input v-model="formData.username" placeholder="请输入用户名">
+              <template #prepend>
+                <el-button icon="el-icon-user"></el-button>
+              </template>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input
+                type="password"
+                placeholder="请输入密码"
+                v-model="formData.password"
+                @keyup.enter="submitForm()"
+            >
+              <template #prepend>
+                <el-button icon="el-icon-lock"></el-button>
+              </template>
+            </el-input>
+          </el-form-item>
+          <div class="login-btn">
+            <el-button type="primary" @click="submitForm">登录</el-button>
+          </div>
+        </el-form>
+      </div>
+      <div class="register" @click="$router.push('/register');">注册</div>
     </div>
   </div>
 </template>
@@ -92,7 +95,7 @@ export default defineComponent({
       formData,
       rules,
       loginRef,
-      submitForm
+      submitForm,
     };
   }
 });

@@ -64,9 +64,18 @@ export default defineComponent({
   setup() {
     const $route = useRoute();
     const $store = useStore();
+<<<<<<< HEAD
+    const userInfo = computed(() => $store.getters.userInfo);
+    const userType = userInfo.value.userType
+    let menu: Menu[] = []
+
+    // 超级管理员菜单数据
+    const menuRoot: Menu[] = [
+=======
 
     // 菜单数据
     const menu: Menu[] = [
+>>>>>>> 9e1bac8f9a346c984273c8f9d769d0394191b4cc
       {
         icon: 'el-icon-s-home',
         index: '/',
@@ -98,7 +107,44 @@ export default defineComponent({
         title: '用户管理'
       }
     ];
+<<<<<<< HEAD
+    // 普通用户菜单数据
+    const menuDefault: Menu[] = [
+      {
+        icon: 'el-icon-s-home',
+        index: '/',
+        title: '系统首页'
+      },
+      {
+        icon: 'el-icon-s-order',
+        index: '/mood-essay',
+        title: '心情随笔'
+      },
+      {
+        icon: 'el-icon-s-order',
+        index: '/trifles',
+        title: '鸡毛蒜皮'
+      },
+      {
+        icon: 'el-icon-s-order',
+        index: '/statistics',
+        title: '归档统计'
+      },
+      {
+        icon: 'el-icon-s-order',
+        index: '/todo',
+        title: '代办事项'
+      }
+    ];
 
+    if(userType!=2){
+        menu = menuRoot
+    }else{
+        menu = menuDefault
+    }
+=======
+
+>>>>>>> 9e1bac8f9a346c984273c8f9d769d0394191b4cc
     // 当前路由
     const onRoutes = computed(() => {
       return $route.path;
