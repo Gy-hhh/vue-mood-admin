@@ -64,18 +64,13 @@ export default defineComponent({
   setup() {
     const $route = useRoute();
     const $store = useStore();
-<<<<<<< HEAD
     const userInfo = computed(() => $store.getters.userInfo);
     const userType = userInfo.value.userType
     let menu: Menu[] = []
-
     // 超级管理员菜单数据
     const menuRoot: Menu[] = [
-=======
-
     // 菜单数据
     const menu: Menu[] = [
->>>>>>> 9e1bac8f9a346c984273c8f9d769d0394191b4cc
       {
         icon: 'el-icon-s-home',
         index: '/',
@@ -107,7 +102,6 @@ export default defineComponent({
         title: '用户管理'
       }
     ];
-<<<<<<< HEAD
     // 普通用户菜单数据
     const menuDefault: Menu[] = [
       {
@@ -142,9 +136,6 @@ export default defineComponent({
     }else{
         menu = menuDefault
     }
-=======
-
->>>>>>> 9e1bac8f9a346c984273c8f9d769d0394191b4cc
     // 当前路由
     const onRoutes = computed(() => {
       return $route.path;
