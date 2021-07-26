@@ -69,8 +69,6 @@ export default defineComponent({
     let menu: Menu[] = []
     // 超级管理员菜单数据
     const menuRoot: Menu[] = [
-    // 菜单数据
-    const menu: Menu[] = [
       {
         icon: 'el-icon-s-home',
         index: '/',
@@ -101,7 +99,7 @@ export default defineComponent({
         index: '/user-manage',
         title: '用户管理'
       }
-    ];
+    ]
     // 普通用户菜单数据
     const menuDefault: Menu[] = [
       {
