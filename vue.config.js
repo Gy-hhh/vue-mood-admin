@@ -73,7 +73,7 @@ module.exports = {
     // index: '',
     proxy: {
       api: {
-        target: 'http://mood.xlz122.cn/api',
+        target: 'http://www.xlz122.cn/api',
         // 允许跨域
         ws: true,
         changeOrigin: true,
