@@ -12,11 +12,11 @@
           </div>
           <div class="user-info-list">
             <span class="title">上次登录时间：</span>
-            <span>2021-07-14</span>
+            <span>{{ userInfo.lastLoginTime ? userInfo.lastLoginTime.slice(0,10) : '' }}</span>
           </div>
           <div class="user-info-list">
             <span class="title">上次登录地点：</span>
-            <span>厦门</span>
+            <span>{{ city || '' }}</span>
           </div>
         </el-card>
         <el-card shadow="hover" style="height: 252px">
@@ -112,18 +112,18 @@
         </el-card>
       </el-col>
     </el-row>
-  </div>
 
-  <Modal
-    :modelShow="modelShow"
-    :todoListAdd="todoListAdd"
-    @save="saveEdit"
-    @close="close"
-  />
+    <Modal
+      :modelShow="modelShow"
+      :todoListAdd="todoListAdd"
+      @save="saveEdit"
+      @close="close"
+    />
+  </div>
 </template>
 
 <script lang="ts">
-  import {defineComponent, reactive, computed} from 'vue';
+  import {defineComponent, ref, reactive, computed, onMounted } from 'vue';
   import {useStore} from 'vuex';
   import {todoList, updateTodo,addTodo} from '@api/todo';
   import {ResponseDataType} from '@/types/types';
@@ -239,16 +239,20 @@
         modelShow.show = false;
       }
       //获取用户当前ipipInfo
-      function getIpInfo():void{
+      const city = ref('')
+      function getIpInfo(){
         ipInfo().then((res:ResponseDataType)=>{
-          // axios.get('https://ip.ws.126.net/ipquery?ip='+res.data.ip)
-          //   .then(response => (
-          //     console.log(response)
-          //   ))
+          axios.get('/getIp?ip='+res.data.ip).then(res1 => {
+            let start=res1.data.lastIndexOf("\lc=");
+            let end=res1.data.lastIndexOf("\;");
+            city.value=res1.data.substring(start+4,end-1)
+          })
         })
       }
       getIpInfo()
+
       return {
+        city,
         userInfo,
         table,
         role,
