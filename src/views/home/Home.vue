@@ -112,7 +112,6 @@
         </el-card>
       </el-col>
     </el-row>
-
     <Modal
       :modelShow="modelShow"
       :todoListAdd="todoListAdd"
@@ -131,6 +130,7 @@
   import Modal from './components/model.vue'
   import { ipInfo } from "../../api/user";
   import axios from 'axios';
+  
   type Table = {
     list: unknown[];
     total: number;
