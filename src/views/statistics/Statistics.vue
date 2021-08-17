@@ -39,6 +39,9 @@
                 <el-form-item label="内容">
                   <span>{{ item.contnet }}</span>
                 </el-form-item>
+                <el-form-item label="最后更新者">
+                  <span>{{ item.lastUpdateUser }}</span>
+                </el-form-item>
               </div>
             </el-form>
           </template>

@@ -73,13 +73,19 @@ module.exports = {
     // index: '',
     proxy: {
       api: {
-        target: 'http://mood.xlz122.cn/api',
+        target: 'http://www.xlz122.cn/api',
         // 允许跨域
         ws: true,
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'
         }
+      },
+      '/getIp': {        //这里是我配置的名字
+        target: 'https://ip.ws.126.net/ipquery', //你要请求的第三方接口
+        ws: true,
+        changeOrigin: true, //开启代理：在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
+        pathRewrite: {'^/getIp': '/'}    //这里重写路径运行后就代理到对应地址
       }
     }
   },

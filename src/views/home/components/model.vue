@@ -24,7 +24,7 @@
         default: () => ({})
       },
       modelShow: {
-        type: Boolean,
+        type: Object,
         default: () => ({})
       },
     },

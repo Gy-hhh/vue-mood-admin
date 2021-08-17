@@ -46,6 +46,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="descText" label="简介"></el-table-column>
+        <el-table-column prop="lastUpdateUser" label="最后更新者"></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template #default="scope">
             <el-button
