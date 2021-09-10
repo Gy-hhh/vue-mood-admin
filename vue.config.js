@@ -41,14 +41,14 @@ module.exports = {
   // 打包生成的index.html放置的路径 例：xlz/index.html，index.html将被放置在dist/xlz/index.html
   indexPath: 'index.html',
   // 是否开启eslint检测，有效值：ture | false | 'error'
-  lintOnSave: true,
+  lintOnSave: false,
   // 设置为true的时候,打包完成后生成一些js.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
   productionSourceMap: false,
   css: {
     // 设置为true的时候 打包完成后会生成一些css.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
     sourceMap: false,
     // 是否开启样式模块 <style module></style>
-    requireModuleExtension: false,
+    // requireModuleExtension: false,
     // 共享的全局变量
     loaderOptions: {
       // 给 less-loader 传递选项
@@ -58,7 +58,7 @@ module.exports = {
           javascriptEnabled: true,
           modifyVars: {
             // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
-            hack: 'true; @import "@/assets/common.less";',
+            // hack: 'true; @import "@/assets/common.less";',
           },
         },
       },
@@ -73,7 +73,7 @@ module.exports = {
     // index: '',
     proxy: {
       api: {
-        target: 'http://www.xlz122.cn/api',
+        target: 'https://www.xlz122.cn/api',
         // 允许跨域
         ws: true,
         changeOrigin: true,

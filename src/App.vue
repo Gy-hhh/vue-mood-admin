@@ -8,15 +8,15 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed } from 'vue';
-  import { useRoute } from 'vue-router';
-  export default defineComponent({
-    setup() {
-      const $route = useRoute();
-      const key = computed(() => $route.path + Math.random());
-      return{key}
-    }
-  })
+import { defineComponent, computed } from 'vue';
+import { useRoute } from 'vue-router';
+export default defineComponent({
+  setup() {
+    const $route = useRoute();
+    const key = computed(() => $route.path + Math.random());
+    return { key };
+  }
+});
 </script>
 <style lang="less">
 @import './assets/css/main.css';

@@ -116,15 +116,15 @@ export default defineComponent({
       newPassword: '',
       desc: String(userInfo.value.desc)
     });
-    const validatePass = (rule:any, value:any, callback:any) => {
+    const validatePass = (rule: any, value: any, callback: any) => {
       if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value == form.oldPassword) {
-        callback(new Error('新密码和旧密码不能一样'))
+        callback(new Error('请再次输入密码'));
+      } else if (value === form.oldPassword) {
+        callback(new Error('新密码和旧密码不能一样'));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const rules = {
       oldPassword: [
         { required: true, message: '请输入旧密码', trigger: 'blur' },
@@ -154,7 +154,7 @@ export default defineComponent({
             })
             .catch(() => ({}));
         }
-      })
+      });
     }
     return {
       userInfo,

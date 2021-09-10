@@ -4,7 +4,7 @@
       <el-col :span="8">
         <el-card shadow="hover" class="mgb20" style="height: 252px">
           <div class="user-info">
-            <img class="user-avator" :src="userInfo.avatarUrl" alt=""/>
+            <img class="user-avator" :src="userInfo.avatarUrl" alt="" />
             <div class="user-info-cont">
               <div class="user-info-name">{{ userInfo.username }}</div>
               <div>{{ role }}</div>

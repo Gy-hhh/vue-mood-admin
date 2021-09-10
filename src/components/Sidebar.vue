@@ -12,13 +12,13 @@
     >
       <template v-for="item in menu">
         <template v-if="item.subs">
-          <el-submenu :index="item.index" :key="item.index">
+          <el-menu-item :index="item.index" :key="item.index">
             <template #title>
               <i :class="item.icon"></i>
               <span>{{ item.title }}</span>
             </template>
             <template v-for="subItem in item.subs">
-              <el-submenu
+              <el-menu-item
                 v-if="subItem.subs"
                 :index="subItem.index"
                 :key="subItem.index"
@@ -31,12 +31,12 @@
                 >
                   {{ threeItem.title }}</el-menu-item
                 >
-              </el-submenu>
+              </el-menu-item>
               <el-menu-item v-else :index="subItem.index" :key="subItem.index"
                 >{{ subItem.title }}
               </el-menu-item>
             </template>
-          </el-submenu>
+          </el-menu-item>
         </template>
         <template v-else>
           <el-menu-item :index="item.index" :key="item.index">
@@ -65,8 +65,8 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
     const userInfo = computed(() => $store.getters.userInfo);
-    const userType = userInfo.value.userType
-    let menu: Menu[] = []
+    const userType = userInfo.value.userType;
+    let menu: Menu[] = [];
     // 超级管理员菜单数据
     const menuRoot: Menu[] = [
       {
@@ -99,7 +99,7 @@ export default defineComponent({
         index: '/user-manage',
         title: '用户管理'
       }
-    ]
+    ];
     // 普通用户菜单数据
     const menuDefault: Menu[] = [
       {
@@ -129,10 +129,10 @@ export default defineComponent({
       }
     ];
 
-    if(userType!=2){
-        menu = menuRoot
-    }else{
-        menu = menuDefault
+    if (userType !== 2) {
+      menu = menuRoot;
+    } else {
+      menu = menuDefault;
     }
     // 当前路由
     const onRoutes = computed(() => {

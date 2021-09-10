@@ -84,7 +84,7 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () =>
           import(/* webpackChunkName: 'tabs' */ '../views/Tabs.vue')
-      },
+      }
     ]
   },
   {
@@ -102,8 +102,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: '注册'
     },
-    component: () =>
-      import(/* webpackChunkName: 'register' */ '../views/register/register.vue')
+    component: () => import('../views/register/register.vue')
   },
   // 未匹配的路径名称导航到该路径
   // {
